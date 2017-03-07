@@ -124,8 +124,8 @@ function browsersync_start (norefresh) {
 
 		// don't do anything if nocmswatch flag is set
 		if (!enduro.flags.nocmswatch && !enduro.flags.temporary_nocmswatch) {
+			console.log('22222')
 			gulp.enduro_refresh(() => {
-				console.log('22222')
 
 				browser_sync.reload()
 			})
