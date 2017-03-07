@@ -98,33 +98,35 @@ function browsersync_start (norefresh) {
 		}
 	})
 
-	// Watch for sass
-	watch([
-		enduro.project_path + '/assets/css/**/*',
-		enduro.project_path + '/assets/fonticons/*',
-		'!' + enduro.project_path + '/assets/css/sprites/*'],
-		() => { gulp.start(sass_handler) })
+	if (!enduro.flags.nowatch) {
+		// Watch for sass
+		watch([
+			enduro.project_path + '/assets/css/**/*',
+			enduro.project_path + '/assets/fonticons/*',
+			'!' + enduro.project_path + '/assets/css/sprites/*'],
+			() => { gulp.start(sass_handler) })
 
-	watch([enduro.project_path + '/assets/hbs_helpers/**/*'], () => { gulp.start('hbs_helpers') })		// Watch for local handlebars helpers
-	watch([enduro.project_path + '/assets/spriteicons/*.png'], () => { gulp.start('sass') })				// Watch for png icons
-	watch([enduro.project_path + '/assets/fonticons/*.svg'], () => {
-		gulp.start('iconfont')
-		gulp.enduro_refresh()
-	})			// Watch for font icon
-	watch([enduro.project_path + '/components/**/*.hbs'], () => { gulp.start('hbs_templates') })			// Watch for hbs templates
-
-	// Watch for enduro changes
-	watch([enduro.project_path + '/pages/**/*.hbs', enduro.project_path + '/components/**/*.hbs', enduro.project_path + '/cms/**/*.js'], function () {
-
-		// don't do anything if nocmswatch flag is set
-		if (!enduro.flags.nocmswatch && !enduro.flags.temporary_nocmswatch) {
-			console.log('>>>>>>>>>>>>><<<<<<<<<<<<<<')
+		watch([enduro.project_path + '/assets/hbs_helpers/**/*'], () => { gulp.start('hbs_helpers') })		// Watch for local handlebars helpers
+		watch([enduro.project_path + '/assets/spriteicons/*.png'], () => { gulp.start('sass') })				// Watch for png icons
+		watch([enduro.project_path + '/assets/fonticons/*.svg'], () => {
+			gulp.start('iconfont')
 			gulp.enduro_refresh()
-				.then(() => {
-					browser_sync.reload()
-				})
-		}
-	})
+		})			// Watch for font icon
+		watch([enduro.project_path + '/components/**/*.hbs'], () => { gulp.start('hbs_templates') })			// Watch for hbs templates
+
+		// Watch for enduro changes
+		watch([enduro.project_path + '/pages/**/*.hbs', enduro.project_path + '/components/**/*.hbs', enduro.project_path + '/cms/**/*.js'], function () {
+
+			// don't do anything if nocmswatch flag is set
+			if (!enduro.flags.nocmswatch && !enduro.flags.temporary_nocmswatch) {
+				console.log('>>>>>>>>>>>>><<<<<<<<<<<<<<')
+				gulp.enduro_refresh()
+					.then(() => {
+						browser_sync.reload()
+					})
+			}
+		})
+	}
 }
 
 // * ———————————————————————————————————————————————————————— * //
