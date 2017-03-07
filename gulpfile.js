@@ -28,6 +28,7 @@ var sprite_icons = require(enduro.enduro_path + '/libs/build_tools/sprite_icons'
 
 gulp.enduro_refresh = function (callback) {
 	logger.log('Refresh', true, 'enduro_render_events')
+	console.log('this gets executed too many times')
 	enduro.actions.render(true)
 		.then(() => {
 			callback()
