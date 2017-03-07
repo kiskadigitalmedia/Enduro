@@ -114,6 +114,7 @@ function browsersync_start (norefresh) {
 	watch([enduro.project_path + '/assets/spriteicons/*.png'], () => { gulp.start('sass') })				// Watch for png icons
 	watch([enduro.project_path + '/assets/fonticons/*.svg'], () => {
 		gulp.start('iconfont')
+		console.log('11111')
 		gulp.enduro_refresh(() => {})
 	})			// Watch for font icon
 	watch([enduro.project_path + '/components/**/*.hbs'], () => { gulp.start('hbs_templates') })			// Watch for hbs templates
@@ -124,6 +125,8 @@ function browsersync_start (norefresh) {
 		// don't do anything if nocmswatch flag is set
 		if (!enduro.flags.nocmswatch && !enduro.flags.temporary_nocmswatch) {
 			gulp.enduro_refresh(() => {
+				console.log('22222')
+
 				browser_sync.reload()
 			})
 		}
