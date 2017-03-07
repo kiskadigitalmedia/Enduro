@@ -98,7 +98,10 @@ function browsersync_start (norefresh) {
 		}
 	})
 
+	// nowatch flag is used when testing development server
+	// the watch kindof stayed in memory and screwed up all other tests
 	if (!enduro.flags.nowatch) {
+
 		// Watch for sass
 		watch([
 			enduro.project_path + '/assets/css/**/*',
