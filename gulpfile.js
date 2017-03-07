@@ -29,11 +29,7 @@ var sprite_icons = require(enduro.enduro_path + '/libs/build_tools/sprite_icons'
 gulp.enduro_refresh = function (callback) {
 	logger.log('Refresh', true, 'enduro_render_events')
 	console.log('this gets executed too many times')
-	enduro.actions.render(true)
-		.then(() => {
-			callback()
-		})
-
+	return enduro.actions.render(true)
 }
 
 // * ———————————————————————————————————————————————————————— * //
@@ -115,7 +111,7 @@ function browsersync_start (norefresh) {
 	watch([enduro.project_path + '/assets/fonticons/*.svg'], () => {
 		gulp.start('iconfont')
 		console.log('11111')
-		gulp.enduro_refresh(() => {})
+		gulp.enduro_refresh()
 	})			// Watch for font icon
 	watch([enduro.project_path + '/components/**/*.hbs'], () => { gulp.start('hbs_templates') })			// Watch for hbs templates
 
@@ -125,10 +121,10 @@ function browsersync_start (norefresh) {
 		// don't do anything if nocmswatch flag is set
 		if (!enduro.flags.nocmswatch && !enduro.flags.temporary_nocmswatch) {
 			console.log('22222')
-			gulp.enduro_refresh(() => {
-
-				browser_sync.reload()
-			})
+			gulp.enduro_refresh()
+				.then(() => {
+					browser_sync.reload()
+				})
 		}
 	})
 }
