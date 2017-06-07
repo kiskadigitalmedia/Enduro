@@ -78,7 +78,7 @@
   "homepage": "www.endurojs.com",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.0.2",
     "coveralls": "^2.11.8",
     "gulp-less": "^3.3.0",
     "istanbul": "^0.4.2",
