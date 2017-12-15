@@ -33,7 +33,6 @@ assets_copier.prototype.init = function (gulp, browser_sync) {
 
 	// registeres task to provided gulp
 	gulp.task(assets_copier_name, function () {
-
 		// check if remote should be watched
 		if (enduro.flags.noremotewatch) {
 			_.pull(static_locations_to_watch, 'remote')
@@ -89,7 +88,7 @@ assets_copier.prototype.watch = function (gulp, browser_sync) {
 // *	static assets folders
 // * ———————————————————————————————————————————————————————— * //
 assets_copier.prototype.get_copy_from_and_copy_to_pairs = () => {
-	return static_locations_to_watch
+	return _.union(static_locations_to_watch, enduro.config.static_assets_paths || [])
 		.map((static_location) => {
 			return {
 				copy_from: path.join(enduro.project_path, static_location),
