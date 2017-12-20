@@ -11,12 +11,15 @@ css_handler.prototype.init = function (gulp, browser_sync) {
 	const sass_handler = require(enduro.enduro_path + '/libs/build_tools/sass_handler').init(gulp, browser_sync);
 	const less_handler = require(enduro.enduro_path + '/libs/build_tools/less_handler').init(gulp, browser_sync);
 	const stylus_handler = require(enduro.enduro_path + '/libs/build_tools/stylus_handler').init(gulp, browser_sync);
+	const cssnext_handler = require(enduro.enduro_path + '/libs/build_tools/cssnext_handler').init(gulp, browser_sync);
 
 	gulp.task(css_handler_task_name, function() {
 		if (enduro.config.less) {
 			gulp.start(less_handler);
 		} else if (enduro.config.stylus) {
 			gulp.start(stylus_handler)
+		} else if (enduro.config.cssnext) {
+			gulp.start(cssnext_handler)
 		} else {
 			gulp.start(sass_handler);
 		}
