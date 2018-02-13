@@ -5,5 +5,6 @@
 		"bucket": "enduro.sethere",
 		"region": "eu-west-1"
 	},
+	"gcloud": {},
 	"juicebox_enabled": false
 }
