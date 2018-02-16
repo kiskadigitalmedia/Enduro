@@ -249,7 +249,7 @@ function get_latest_juice () {
 				process.exit()
 			}
 
-			if (response.statusCode != 200) { reject('couldnt read juice file') }
+			if (response.statusCode != 200) { throw new Error('couldnt read juice file') }
 
 			// check if we got xml or json - xml means there is something wrong
 			const juicefile_in_json = JSON.parse(body)
@@ -257,7 +257,9 @@ function get_latest_juice () {
 			return write_juicefile(juicefile_in_json)
 		})
 		.catch(() => {
-			return write_juicefile(get_new_juicefile())
+			// read current juicefile or generate new if one is not found
+			return read_juicefile()
+				.catch(() => write_juicefile(get_new_juicefile()))
 		})
 }
 
