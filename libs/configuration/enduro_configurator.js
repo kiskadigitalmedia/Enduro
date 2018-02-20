@@ -44,11 +44,8 @@ enduro_configurator.prototype.read_config = function () {
 			// detect gcloud
 			enduro.config.variables.has_gcloud_setup = !!enduro.config.gcloud
 			enduro.config.variables.GCLOUD_PROJECT = (enduro.config.variables.has_gcloud_setup && enduro.config.gcloud.GCLOUD_PROJECT) || process.env.GCLOUD_PROJECT
-			enduro.config.variables.keyFilename = (enduro.config.variables.has_gcloud_setup && enduro.config.gcloud.keyFilename) || process.env.GCLOUD_KEY_FILENAME
-			// enduro.config.variables.GCLOUD_CLIENT_ID = (enduro.config.variables.has_gcloud_setup && enduro.config.secret.gcloud.GCLOUD_CLIENT_ID) || process.env.GCLOUD_CLIENT_ID
-			// enduro.config.variables.GCLOUD_SECRET = (enduro.config.variables.has_gcloud_setup && enduro.config.secret.gcloud.GCLOUD_SECRET) || process.env.GCLOUD_SECRET
 
-			enduro.config.variables.gcloud_enabled = (enduro.config.project_name && enduro.config.variables.GCLOUD_PROJECT && enduro.config.variables.keyFilename)
+			enduro.config.variables.gcloud_enabled = (enduro.config.project_name && enduro.config.variables.GCLOUD_PROJECT)
 
 			// disable juicebox if there is nojuice flag
 			if (enduro.flags.nojuice) {

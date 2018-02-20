@@ -28,11 +28,6 @@ module.exports = {
 				type: 'input',
 			},
 			{
-				name: 'gcloud.keyFilename',
-				message: 'Input location of keyfile',
-				type: 'input',
-			},
-			{
 				name: 'juicebox_enabled',
 				message: 'Enable juicebox',
 				type: 'confirm',

@@ -18,8 +18,7 @@ filesystem.prototype.upload = function (filename, path_to_file) {
 	const destination_url = this.get_remote_url(filename)
 
 	const client = new Storage({
-		projectId: enduro.config.gcloud.GCLOUD_PROJECT,
-		keyFilename: enduro.config.gcloud.keyFilename
+		projectId: enduro.config.gcloud.GCLOUD_PROJECT
 	})
 
 	return client
