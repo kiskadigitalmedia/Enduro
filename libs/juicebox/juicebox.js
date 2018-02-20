@@ -139,6 +139,7 @@ juicebox.prototype.force_pack = function (user) {
 						logger.end()
 						resolve()
 					})
+					.catch(reject)
 			})
 	})
 }
@@ -234,7 +235,7 @@ function get_latest_juice () {
 		})
 		.spread((body, response) => {
 
-			if (body.indexOf('<?xml') + 1 && body.indexOf('<Error>') + 1) {
+			if (body.indexOf('<?xml') + 1 && body.indexOf('<Error>') + 1 && body.indexOf('NoSuchKey') === -1) {
 
 				// juicefile doesn't exist yet - let's create a new juicefile
 				if (body.indexOf('AccessDenied') + 1) {
@@ -248,7 +249,7 @@ function get_latest_juice () {
 				process.exit()
 			}
 
-			if (response.statusCode != 200) { reject('couldnt read juice file') }
+			if (response.statusCode != 200) { throw new Error('couldnt read juice file') }
 
 			// check if we got xml or json - xml means there is something wrong
 			const juicefile_in_json = JSON.parse(body)
@@ -256,7 +257,9 @@ function get_latest_juice () {
 			return write_juicefile(juicefile_in_json)
 		})
 		.catch(() => {
-			return write_juicefile(get_new_juicefile())
+			// read current juicefile or generate new if one is not found
+			return read_juicefile()
+				.catch(() => write_juicefile(get_new_juicefile()))
 		})
 }
 

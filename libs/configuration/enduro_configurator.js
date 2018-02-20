@@ -33,11 +33,19 @@ enduro_configurator.prototype.read_config = function () {
 			// abstract/edit the just read configuration
 
 			enduro.config.variables = {}
+
+			// detect s3
 			enduro.config.variables.has_s3_setup = enduro.config.secret && enduro.config.secret.s3
 			enduro.config.variables.S3_KEY = (enduro.config.variables.has_s3_setup && enduro.config.secret.s3.S3_KEY) || process.env.S3_KEY
 			enduro.config.variables.S3_SECRET = (enduro.config.variables.has_s3_setup && enduro.config.secret.s3.S3_SECRET) || process.env.S3_SECRET
 
 			enduro.config.variables.s3_enabled = (enduro.config.project_name && enduro.config.variables.S3_KEY && enduro.config.variables.S3_SECRET)
+
+			// detect gcloud
+			enduro.config.variables.has_gcloud_setup = !!enduro.config.gcloud
+			enduro.config.variables.GCLOUD_PROJECT = (enduro.config.variables.has_gcloud_setup && enduro.config.gcloud.GCLOUD_PROJECT) || process.env.GCLOUD_PROJECT
+
+			enduro.config.variables.gcloud_enabled = (enduro.config.project_name && enduro.config.variables.GCLOUD_PROJECT)
 
 			// disable juicebox if there is nojuice flag
 			if (enduro.flags.nojuice) {
@@ -53,6 +61,11 @@ enduro_configurator.prototype.read_config = function () {
 			// preselect s3 as remote filesystem once aws keys are inputted
 			if (enduro.config.variables.s3_enabled) {
 				enduro.config.filesystem = 's3'
+			}
+
+			// preselect gcloud as remote filesystem once gcloud keys are inputted
+			if (enduro.config.variables.gcloud_enabled) {
+				enduro.config.filesystem = 'gcloud'
 			}
 
 			// add empty culture that will always render the pages without any culture in the primary culture

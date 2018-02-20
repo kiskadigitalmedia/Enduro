@@ -5,6 +5,7 @@
 		"bucket": "enduro.test",
 		"region": "eu-west-1"
 	},
+	"gcloud": {},
 	"juicebox_enabled": false,
 	"babel": {
 		"presets": ["es2015"]

@@ -34,6 +34,12 @@ juice_helpers.prototype.get_diff_folder_with_cms = function (folder) {
 	const local_path = path.join(enduro.project_path, 'cms')
 	const juice_path = path.join(enduro.project_path, folder)
 
+	// If versioned cms directory does not exist
+	// create an empty cms directory to allow dircompare
+	// to continue
+	const cms_folder = path.join(enduro.project_path, folder, 'cms')
+	fs.ensureDirSync(cms_folder)
+
 	return juice_diff.diff(local_path, juice_path)
 }
 
@@ -76,6 +82,12 @@ juice_helpers.prototype.spill_newer = function (folder) {
 		if (!flat_helpers.dir_exists_sync(folder)) {
 			return resolve()
 		}
+
+		// If versioned cms directory does not exist
+		// create an empty cms directory to allow dircompare
+		// to continue
+		const cms_folder = path.join(enduro.project_path, folder, 'cms')
+		fs.ensureDirSync(cms_folder)
 
 		diff = get_diff(folder)
 
@@ -143,6 +155,7 @@ function log_record (record) {
 function get_diff (folder) {
 	const path1 = path.join(enduro.project_path, 'cms')
 	const path2 = path.join(enduro.project_path, folder, 'cms')
+
 	return dircompare.compareSync(path1, path2, {compareSize: true})
 }
 
