@@ -248,7 +248,7 @@ function get_latest_juice () {
 				process.exit()
 			}
 
-			if (response.statusCode != 200) { reject('couldnt read juice file') }
+			if (response.statusCode != 200) { throw new Error('couldnt read juice file') }
 
 			// check if we got xml or json - xml means there is something wrong
 			const juicefile_in_json = JSON.parse(body)
