@@ -6,6 +6,7 @@ const filesystem = function () {}
 
 // * vendor dependencies
 const Promise = require('bluebird')
+const AWS = require('aws-sdk')
 const s3 = require('s3')
 
 // * enduro dependencies
@@ -22,12 +23,16 @@ filesystem.prototype.upload = function (filename, path_to_file) {
 
 		const destination_url = self.get_remote_url(filename)
 
+		const awsS3Client = new AWS.S3({
+			accessKeyId: enduro.config.variables.S3_KEY,
+			secretAccessKey: enduro.config.variables.S3_SECRET,
+			region: enduro.config.s3.region || 'us-west-1',
+			s3DisableBodySigning: true,
+			signatureVersion: 'v4',
+		})
+
 		const client = s3.createClient({
-			s3Options: {
-				accessKeyId: enduro.config.variables.S3_KEY,
-				secretAccessKey: enduro.config.variables.S3_SECRET,
-				region: enduro.config.s3.region || 'us-west-1',
-			},
+			s3Client: awsS3Client
 		})
 
 		const params = {
@@ -55,10 +60,8 @@ filesystem.prototype.upload = function (filename, path_to_file) {
 filesystem.prototype.get_remote_url = function (filename, juicebox) {
 	if (enduro.config.s3.cloudfront && !juicebox) {
 		return 'https://' + enduro.config.s3.cloudfront + '/' + filename
-	} else if (enduro.config.s3.region === 'us-east-1') {
-		return 'https://s3.amazonaws.com/' + enduro.config.s3.bucket + '/' + filename
 	} else {
-		return 'https://s3-' + (enduro.config.s3.region || 'us-west-1') + '.amazonaws.com/' + enduro.config.s3.bucket + '/' + filename
+		return 'https://s3.' + enduro.config.s3.bucket + '.amazonaws.com/' + filename
 	}
 }
 
