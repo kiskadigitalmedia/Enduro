@@ -3,6 +3,10 @@ module.exports = {
 	command: 'start',
 	desc: 'starts production server',
 	builder: {
+		'nominify': {
+			alias: 'm',
+			describe: 'Turns off file minification'
+		},
 		'nojuice': {
 			alias: 'j',
 			describe: 'no-juice',

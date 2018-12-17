@@ -12,6 +12,9 @@ const gulpif = require('gulp-if')
 const sourcemaps = require('gulp-sourcemaps')
 const Promise = require('bluebird')
 const fs = Promise.promisifyAll(require('fs-extra'))
+const isProduction = () => {
+	return Object.keys(enduro.flags).length ? (enduro.flags._[0] === 'start' || enduro.flags._[0] === 'render') && !enduro.flags.nominify : false
+}
 
 // * enduro dependencies
 const flat_helpers = require(enduro.enduro_path + '/libs/flat_db/flat_helpers')
@@ -20,16 +23,16 @@ const logger = require(enduro.enduro_path + '/libs/logger')
 js_handler.prototype.init = function (gulp, browser_sync) {
 
 	// stores task name
-	const js_handler_task_name = 'js';
-	gulp.task(js_handler_task_name, function() {
+	const js_handler_task_name = 'js'
+	gulp.task(js_handler_task_name, function () {
 		if (enduro.config.babel || enduro.config.uglify) {
 			logger.timestamp('JS compiling started', 'enduro_events')
 			const babelConfig = enduro.config.babel || {
 				presets: ['es2015']
 			}
 			return gulp.src([enduro.project_path + '/assets/js/*.js',
-							'!' + enduro.project_path + '/assets/js/*.min.js',
-							'!' + enduro.project_path + '/assets/js/handlebars.js'])
+				'!' + enduro.project_path + '/assets/js/*.min.js',
+				'!' + enduro.project_path + '/assets/js/handlebars.js'])
 				.pipe(sourcemaps.init())
 				.pipe(gulpif(enduro.config.babel, babel(babelConfig)))
 				.on('error', function (err) {
@@ -45,7 +48,7 @@ js_handler.prototype.init = function (gulp, browser_sync) {
 					logger.timestamp('JS compiling finished', 'enduro_events')
 				})
 				.pipe(gulpif(enduro.config.uglify, rename({ suffix: '.min' })))
-				.pipe(gulpif(enduro.config.uglify, uglify()))
+				.pipe(gulpif(isProduction(), uglify()))
 				.pipe(gulp.dest(enduro.project_path + '/' + enduro.config.build_folder + '/assets/js'))
 		} else {
 			logger.timestamp('js compiling not enabled, add babel options to enduro.json to enable')
@@ -58,7 +61,7 @@ js_handler.prototype.init = function (gulp, browser_sync) {
 		}
 	})
 
-	return js_handler_task_name;
+	return js_handler_task_name
 }
 
 module.exports = new js_handler()

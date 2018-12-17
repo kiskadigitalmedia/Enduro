@@ -9,8 +9,13 @@ const sass_handler = function () {}
 // * vendor dependencies
 const bulkSass = require('gulp-sass-bulk-import')
 const sass = require('gulp-sass')
+const gulpif = require('gulp-if')
 const sourcemaps = require('gulp-sourcemaps')
 const autoprefixer = require('gulp-autoprefixer')
+const wait = require('gulp-wait')
+const isProduction = () => {
+	return Object.keys(enduro.flags).length ? (enduro.flags._[0] === 'start' || enduro.flags._[0] === 'render') && !enduro.flags.nominify : false
+}
 
 // * enduro dependencies
 const logger = require(enduro.enduro_path + '/libs/logger')
@@ -27,8 +32,11 @@ sass_handler.prototype.init = function (gulp, browser_sync) {
 
 		return gulp.src(enduro.project_path + '/assets/css/*.scss')
 			.pipe(bulkSass())
-			.pipe(sourcemaps.init())
-			.pipe(sass())
+      .pipe(gulpif(!isProduction(), sourcemaps.init()))
+      .pipe(wait(500))
+			.pipe(sass({
+				outputStyle: isProduction() ? 'compressed' : 'nested'
+			}))
 			.on('error', function (err) {
 				logger.err_blockStart('Sass error')
 				logger.err(err.message)
@@ -39,7 +47,7 @@ sass_handler.prototype.init = function (gulp, browser_sync) {
 				browsers: ['last 2 versions'],
 				cascade: false,
 			}))
-			.pipe(sourcemaps.write())
+			.pipe(gulpif(!isProduction(), sourcemaps.write()))
 			.pipe(gulp.dest(enduro.project_path + '/' + enduro.config.build_folder + '/assets/css'))
 			.pipe(browser_sync.stream())
 			.on('end', () => {

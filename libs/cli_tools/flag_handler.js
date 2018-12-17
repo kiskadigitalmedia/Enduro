@@ -40,6 +40,10 @@ const FLAG_MAP = {
 	nojuice: {
 		label: 'nojuice',
 		message: 'will turn off juicebox'
+	},
+	nominify: {
+		label: 'nominify',
+		message: 'will not minify css and js files'
 	}
 }
 
