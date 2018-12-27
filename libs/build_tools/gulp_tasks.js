@@ -28,9 +28,9 @@ const event_hooks = require(enduro.enduro_path + '/libs/external_links/event_hoo
 const pagelist_generator = require(enduro.enduro_path + '/libs/build_tools/pagelist_generator').init(gulp)
 const assets_copier = require(enduro.enduro_path + '/libs/build_tools/assets_copier').init(gulp, browser_sync)
 const assets_copier_watch = require(enduro.enduro_path + '/libs/build_tools/assets_copier').watch(gulp, browser_sync)
-const js_handler = require(enduro.enduro_path + '/libs/build_tools/js_handler').init(gulp, browser_sync)
+const js_webpack_handler = require(enduro.enduro_path + '/libs/build_tools/js_webpack_handler').init(gulp, browser_sync)
 const css_handler = require(enduro.enduro_path + '/libs/build_tools/css_handler').init(gulp, browser_sync)
-const sprite_icons = require(enduro.enduro_path + '/libs/build_tools/sprite_icons').init(gulp, browser_sync)
+// const sprite_icons = require(enduro.enduro_path + '/libs/build_tools/sprite_icons').init(gulp, browser_sync)
 
 gulp.enduro_refresh = function (callback) {
 	logger.log('Refresh', true, 'enduro_render_events')
@@ -108,7 +108,7 @@ function browsersync_start (norefresh) {
 	if (!enduro.flags.nowatch) {
 
 		// Watch for any js changes
-		watch([enduro.project_path + '/assets/js/**/*.js'], () => { gulp.start(js_handler) })
+		watch([enduro.project_path + '/assets/js/**/*.js'], () => { gulp.start(js_webpack_handler) })
 
 		// Watch for sass or less changes
 		watch(
@@ -231,7 +231,7 @@ gulp.task('preproduction', ['iconfont', 'png_sprites', pagelist_generator])
 // * 	Production Task
 // *	No browser_sync, no watching for anything
 // * ———————————————————————————————————————————————————————— * //
-gulp.task('production', [js_handler, css_handler, 'hbs_templates', assets_copier, 'hbs_helpers'])
+gulp.task('production', [js_webpack_handler, css_handler, 'hbs_templates', assets_copier, 'hbs_helpers'])
 
 // * ———————————————————————————————————————————————————————— * //
 // * 	Default Task
