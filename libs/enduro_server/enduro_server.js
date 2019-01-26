@@ -81,7 +81,7 @@ enduro_server.prototype.run = function (server_setup) {
 		app.use('/admin', express.static(enduro.config.admin_folder))
 		app.use('/assets', express.static(enduro.project_path + '/' + enduro.config.build_folder + '/assets'))
 		app.use('/_prebuilt', express.static(enduro.project_path + '/' + enduro.config.build_folder + '/_prebuilt'))
-		app.use('/remote', express.static(enduro.project_path + '/remote'))
+		app.use('/remote', express.static(enduro.project_path + '/' + enduro.config.build_folder + '/remote'))
 
 		// handle for executing enduro refresh from client
 		app.get('/admin_api_refresh', function (req, res) {
