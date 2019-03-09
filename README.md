@@ -62,6 +62,16 @@ For STYLUS (http://stylus-lang.com/) support simple set `stylus` to true in your
 ```
 now all `.styl` files in your `assets/css` folder are used to generate the css.
 
+### Extra static assets
+
+To add more static assets to be watched or to be added to the _generated files, you can add the paths from the root of your project into your config file. This will combine the array with the default used by enduro (`['assets/img', 'assets/vendor', 'assets/fonts', 'assets/admin_extensions', 'remote']`).
+
+```json
+{
+    "static_assets_paths": ["assets/icons", "assets/fonts"]
+}
+```
+
 ## Getting started
 
 ![enduro create](http://i.imgur.com/DtxhA7z.gif)
