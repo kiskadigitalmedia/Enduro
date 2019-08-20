@@ -12,7 +12,7 @@ const page_renderer = require(enduro.enduro_path + '/libs/page_rendering/page_re
 const abstractor = require(enduro.enduro_path + '/libs/abstractor/abstractor')
 
 // Goes through the pages and renders them
-temper.prototype.render = function (filename, context) {
+temper.prototype.render = function (filename, context, culture) {
 
 	// use empty object if no context is provided
 	context = context || {}
@@ -21,7 +21,7 @@ temper.prototype.render = function (filename, context) {
 
 	return abstractor.abstract_context(context)
 		.then((context) => {
-			return page_renderer.render_file_by_template_path_replace_context(filename, context)
+			return page_renderer.render_file_by_template_path_replace_context(filename, context, culture)
 		})
 }
 
