@@ -131,12 +131,12 @@ page_renderer.prototype.render_file_by_template_path_extend_context = function (
 
 }
 
-page_renderer.prototype.render_file_by_template_path_replace_context = function (context_path, context) {
+page_renderer.prototype.render_file_by_template_path_replace_context = function (context_path, context, culture) {
 	const self = this
 	context = context || {}
 
 	const template_path = get_absolute_template_path_by_context_path(context_path)
-	const culture = enduro.config.cultures[0]
+	culture = culture || enduro.config.cultures[0]
 
 	return self.render_file_by_context(template_path, context, culture)
 }
